@@ -310,7 +310,7 @@ function Dashboard() {
                   <input
                     type="number"
                     value={form.value_gbp}
-                    onChange={(e) => updateForm("value_gbp", e.target.value)}
+                    onChange={(e) => updateForm("value_gbp", Number(e.target.value))}
                     placeholder="25000"
                     style={inputStyle}
                     required
@@ -551,6 +551,8 @@ function Dashboard() {
               rel="noopener noreferrer"
               style={openRecordButtonStyle}
             >
+            
+         
               Open full record
             </a>
           </div>

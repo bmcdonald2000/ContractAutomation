@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  fetchContracts,
+  fetchContractById,
   updateContractStatus,
   type Contract,
 } from "../lib/contracts";
@@ -43,6 +43,7 @@ type RecordTab =
 
 export default function ContractDetailPage() {
   const { id } = useParams();
+  console.log("Route contract id:", id);
 
   const [contract, setContract] = useState<Contract | null>(null);
   const [loading, setLoading] = useState(true);
@@ -74,19 +75,30 @@ export default function ContractDetailPage() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loadingActivities, setLoadingActivities] = useState(false);
 
+ useEffect(() => {
   async function loadContract() {
+    if (!id) {
+      setContract(null);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
-      const allContracts = await fetchContracts();
-      const found = allContracts.find((c) => c.id === id) ?? null;
+
+      const found = await fetchContractById(id);
       setContract(found);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load contract");
+      setContract(null);
     } finally {
       setLoading(false);
     }
   }
+
+  loadContract();
+}, [id]);
 
   async function loadApprovals(currentContract: Contract) {
     try {
@@ -390,10 +402,6 @@ export default function ContractDetailPage() {
       setActingDocumentId(null);
     }
   }
-
-  useEffect(() => {
-    loadContract();
-  }, [id]);
 
   useEffect(() => {
     if (!contract) return;

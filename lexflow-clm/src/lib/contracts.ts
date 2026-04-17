@@ -1,115 +1,154 @@
 import { supabase } from "./supabase";
 
+/* =========================
+   TYPES
+========================= */
+
+export type ContractStatus =
+  | "Draft"
+  | "In Review"
+  | "Approved"
+  | "Signed"
+  | "Archived";
+
+export type ContractPriority = "High" | "Medium" | "Low";
+
 export type Contract = {
-id: string;
-title: string;
-type: string;
-owner: string;
-counterparty: string;
-value_gbp: number;
-priority: "High" | "Medium" | "Low";
-status: "Draft" | "In Review" | "Approved" | "Signed" | "Archived";
-governing_law: string;
-renewal_date: string;
-auto_renew: boolean;
-security_review: boolean;
-finance_approval: boolean;
-obligation: string;
-notes: string | null;
-created_at: string;
+  id: string;
+  title: string;
+  type: string;
+  owner: string;
+  counterparty: string;
+  value_gbp: number;
+  status: ContractStatus;
+  priority: ContractPriority;
+  governing_law: string;
+  renewal_date: string;
+  obligation: string;
+  notes: string | null;
+  auto_renew: boolean;
+  security_review: boolean;
+  finance_approval: boolean;
+  created_at: string;
 };
 
 export type ContractFormData = {
-title: string;
-type: string;
-owner: string;
-counterparty: string;
-value_gbp: string;
-priority: "High" | "Medium" | "Low";
-status: "Draft" | "In Review" | "Approved" | "Signed" | "Archived";
-governing_law: string;
-renewal_date: string;
-auto_renew: boolean;
-security_review: boolean;
-finance_approval: boolean;
-obligation: string;
-notes: string;
+  title: string;
+  type: string;
+  owner: string;
+  counterparty: string;
+  value_gbp: number;
+  status: ContractStatus;
+  priority: ContractPriority;
+  governing_law: string;
+  renewal_date: string;
+  obligation: string;
+  notes: string;
+  auto_renew: boolean;
+  security_review: boolean;
+  finance_approval: boolean;
 };
+
+/* =========================
+   DEFAULT FORM
+========================= */
 
 export const defaultContractForm: ContractFormData = {
-title: "",
-type: "MSA",
-owner: "",
-counterparty: "",
-value_gbp: "",
-priority: "Medium",
-status: "Draft",
-governing_law: "England & Wales",
-renewal_date: "",
-auto_renew: true,
-security_review: false,
-finance_approval: false,
-obligation: "",
-notes: "",
+  title: "",
+  type: "MSA",
+  owner: "",
+  counterparty: "",
+  value_gbp: 0,
+  status: "Draft",
+  priority: "Medium",
+  governing_law: "England & Wales",
+  renewal_date: "",
+  obligation: "",
+  notes: "",
+  auto_renew: false,
+  security_review: false,
+  finance_approval: false,
 };
+
+/* =========================
+   FETCH ALL CONTRACTS
+========================= */
+
+export async function fetchContractById(
+  contractId: string
+): Promise<Contract | null> {
+  if (!supabase) throw new Error("Supabase not configured.");
+
+  const { data, error } = await supabase
+    .from("contracts")
+    .select("*")
+    .eq("id", contractId)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return data as Contract | null;
+}
+/* =========================
+   FETCH SINGLE CONTRACT
+========================= */
 
 export async function fetchContracts(): Promise<Contract[]> {
-if (!supabase) throw new Error("Supabase not configured.");
+  if (!supabase) throw new Error("Supabase not configured.");
 
-const { data, error } = await supabase
-.from("contracts")
-.select("*")
-.order("created_at", { ascending: false });
+  const { data, error } = await supabase
+    .from("contracts")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-if (error) throw error;
-return (data ?? []) as Contract[];
+  if (error) throw error;
+
+  return (data ?? []) as Contract[];
 }
+
+/* =========================
+   CREATE CONTRACT
+========================= */
 
 export async function createContract(
-form: ContractFormData
+  form: ContractFormData
 ): Promise<Contract> {
-if (!supabase) throw new Error("Supabase not configured.");
+  if (!supabase) throw new Error("Supabase not configured.");
 
-const payload = {
-title: form.title.trim(),
-type: form.type,
-owner: form.owner.trim(),
-counterparty: form.counterparty.trim(),
-value_gbp: Number(form.value_gbp || 0),
-priority: form.priority,
-status: form.status,
-governing_law: form.governing_law.trim(),
-renewal_date: form.renewal_date,
-auto_renew: form.auto_renew,
-security_review: form.security_review,
-finance_approval: form.finance_approval,
-obligation: form.obligation.trim(),
-notes: form.notes.trim() || null,
-};
+  const payload = {
+    ...form,
+    notes: form.notes || null,
+  };
 
-const { data, error } = await supabase
-.from("contracts")
-.insert(payload)
-.select()
-.single();
+  const { data, error } = await supabase
+    .from("contracts")
+    .insert([payload])
+    .select()
+    .single();
 
-if (error) throw error;
-return data as Contract;
+  if (error) throw error;
+
+  return data as Contract;
 }
 
+/* =========================
+   UPDATE STATUS
+========================= */
+
 export async function updateContractStatus(
-id: string,
-status: Contract["status"]
+  contractId: string,
+  status: ContractStatus
 ): Promise<Contract> {
-if (!supabase) throw new Error("Supabase not configured.");
+  if (!supabase) throw new Error("Supabase not configured.");
 
-const { data, error } = await supabase
-.from("contracts")
-.update({ status })
-.eq("id", id)
-.select()
-.single();
+  const { data, error } = await supabase
+    .from("contracts")
+    .update({ status })
+    .eq("id", contractId)
+    .select()
+    .single();
 
-if (error) throw error;
-return data as Contract;
+  if (error) throw error;
+
+  return data as Contract;
 }
