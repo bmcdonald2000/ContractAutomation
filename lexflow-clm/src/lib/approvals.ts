@@ -17,7 +17,6 @@ created_at: string;
 
 export function getRequiredApprovalTypes(contract: Contract): ApprovalType[] {
 const approvals: ApprovalType[] = [];
-
 const legalRequired =
 contract.priority === "High" || contract.value_gbp >= 20000;
 

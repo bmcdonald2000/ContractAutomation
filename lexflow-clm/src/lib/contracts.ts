@@ -1,9 +1,5 @@
 import { supabase } from "./supabase";
 
-/* =========================
-   TYPES
-========================= */
-
 export type ContractStatus =
   | "Draft"
   | "In Review"
@@ -30,6 +26,7 @@ export type Contract = {
   security_review: boolean;
   finance_approval: boolean;
   created_at: string;
+  updated_at?: string;
 };
 
 export type ContractFormData = {
@@ -49,10 +46,6 @@ export type ContractFormData = {
   finance_approval: boolean;
 };
 
-/* =========================
-   DEFAULT FORM
-========================= */
-
 export const defaultContractForm: ContractFormData = {
   title: "",
   type: "MSA",
@@ -70,14 +63,29 @@ export const defaultContractForm: ContractFormData = {
   finance_approval: false,
 };
 
-/* =========================
-   FETCH ALL CONTRACTS
-========================= */
+export async function fetchContracts(): Promise<Contract[]> {
+  if (!supabase) {
+    throw new Error("Supabase client is not configured.");
+  }
+
+  const { data, error } = await supabase
+    .from("contracts")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []) as Contract[];
+}
 
 export async function fetchContractById(
   contractId: string
 ): Promise<Contract | null> {
-  if (!supabase) throw new Error("Supabase not configured.");
+  if (!supabase) {
+    throw new Error("Supabase client is not configured.");
+  }
 
   const { data, error } = await supabase
     .from("contracts")
@@ -85,61 +93,45 @@ export async function fetchContractById(
     .eq("id", contractId)
     .maybeSingle();
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
-  return data as Contract | null;
+  return (data as Contract | null) ?? null;
 }
-/* =========================
-   FETCH SINGLE CONTRACT
-========================= */
-
-export async function fetchContracts(): Promise<Contract[]> {
-  if (!supabase) throw new Error("Supabase not configured.");
-
-  const { data, error } = await supabase
-    .from("contracts")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) throw error;
-
-  return (data ?? []) as Contract[];
-}
-
-/* =========================
-   CREATE CONTRACT
-========================= */
 
 export async function createContract(
   form: ContractFormData
 ): Promise<Contract> {
-  if (!supabase) throw new Error("Supabase not configured.");
+  if (!supabase) {
+    throw new Error("Supabase client is not configured.");
+  }
 
   const payload = {
     ...form,
-    notes: form.notes || null,
+    notes: form.notes.trim() ? form.notes : null,
   };
 
   const { data, error } = await supabase
     .from("contracts")
-    .insert([payload])
+    .insert(payload)
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data as Contract;
 }
-
-/* =========================
-   UPDATE STATUS
-========================= */
 
 export async function updateContractStatus(
   contractId: string,
   status: ContractStatus
 ): Promise<Contract> {
-  if (!supabase) throw new Error("Supabase not configured.");
+  if (!supabase) {
+    throw new Error("Supabase client is not configured.");
+  }
 
   const { data, error } = await supabase
     .from("contracts")
@@ -148,7 +140,9 @@ export async function updateContractStatus(
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data as Contract;
 }
