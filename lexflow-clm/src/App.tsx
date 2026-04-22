@@ -453,6 +453,7 @@ function Dashboard() {
               ...(selectedId === contract.id ? selectedCardStyle : {}),
             }}
           >
+            console.log("Dashboard contract id:", contract.id, contract.title),
             <div
               onClick={() => {
                 setSelectedId(contract.id);
