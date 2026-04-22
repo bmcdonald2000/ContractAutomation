@@ -453,7 +453,6 @@ function Dashboard() {
               ...(selectedId === contract.id ? selectedCardStyle : {}),
             }}
           >
-            console.log("Dashboard contract id:", contract.id, contract.title),
             <div
               onClick={() => {
                 setSelectedId(contract.id);
@@ -497,6 +496,7 @@ function Dashboard() {
         ))}
       </div>
     )}
+    console.log("Dashboard contract id:", contract.id, contract.title),
   </section>
 
   <section style={sidebarStackStyle}>
@@ -1085,7 +1085,6 @@ const statusPreviewRowStyle: React.CSSProperties = {
   gap: 12,
   alignItems: "center",
 };
-
 
 
 
