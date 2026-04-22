@@ -87,11 +87,16 @@ export async function fetchContractById(
     throw new Error("Supabase client is not configured.");
   }
 
+  console.log("fetchContractById called with:", contractId);
+
   const { data, error } = await supabase
     .from("contracts")
     .select("*")
     .eq("id", contractId)
     .maybeSingle();
+
+  console.log("fetchContractById result data:", data);
+  console.log("fetchContractById result error:", error);
 
   if (error) {
     throw error;

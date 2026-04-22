@@ -7,7 +7,7 @@ import {
 
 export default function ContractDetailPage() {
   const { id } = useParams<{ id: string }>();
-
+  console.log("Route param id:", id);
   const [contract, setContract] = useState<Contract | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

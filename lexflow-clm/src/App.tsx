@@ -488,11 +488,7 @@ function Dashboard() {
                 {contract.status}
               </span>
               <a
-                href={`/contract/${contract.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={viewDetailStyle}
-              >
+                href={`/contract/${contract.id}`}target="_blank">
                 View details →
               </a>
             </div>
