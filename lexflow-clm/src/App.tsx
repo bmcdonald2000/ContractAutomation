@@ -19,6 +19,8 @@ import {
   type Activity,
 } from "./lib/activities";
 import { supabase } from "./lib/supabase";
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
 
 type DetailTab =
   | "Overview"
@@ -487,15 +489,14 @@ function Dashboard() {
               <span style={statusBadgeStyle(contract.status)}>
                 {contract.status}
               </span>
-              <a
-  
-                  href={`/contract/${contract.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={viewDetailStyle}
-                >
-                  View details →
-              </a>
+
+              <button
+                onClick={() => navigate(`/contract/${contract.id}`)}
+                style={viewDetailStyle}
+              >
+                View details →
+              </button>
+            
             </div>
           </div>
         ))}
