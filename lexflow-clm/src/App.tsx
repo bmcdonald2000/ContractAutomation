@@ -31,7 +31,7 @@ export default function App() {
   return(
     <Routes>
       <Route path="/" element={<Dashboard/>} />
-      <Route path="/contract/:id" element={<ContractDetailPage/>} />
+      <Route path="/contract/:id" element={<ContractDetailPage />} />
     </Routes>
   );
 }
@@ -488,8 +488,13 @@ function Dashboard() {
                 {contract.status}
               </span>
               <a
-                href={`/contract/${contract.id}`}target="_blank">
-                View details →
+  
+                  href={`/contract/${contract.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={viewDetailStyle}
+                >
+                  View details →
               </a>
             </div>
           </div>
@@ -1086,6 +1091,12 @@ const statusPreviewRowStyle: React.CSSProperties = {
   alignItems: "center",
 };
 
+const viewDetailStyle: React.CSSProperties = {
+fontSize: 13,
+color: "#fde68a",
+fontWeight: 700,
+textDecoration: "none",
+};
 
 
 
