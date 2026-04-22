@@ -1086,12 +1086,7 @@ const statusPreviewRowStyle: React.CSSProperties = {
   alignItems: "center",
 };
 
-const viewDetailStyle: React.CSSProperties = {
-fontSize: 13,
-color: "#fde68a",
-fontWeight: 700,
-textDecoration: "none",
-};
+
 
 
 
