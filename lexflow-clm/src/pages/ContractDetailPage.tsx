@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode, type CSSProperties } from "react";
 import { useParams } from "react-router-dom";
 import {
   fetchContractById,
@@ -8,6 +8,7 @@ import {
 export default function ContractDetailPage() {
   const { id } = useParams<{ id: string }>();
   console.log("Route param id:", id);
+
   const [contract, setContract] = useState<Contract | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -80,13 +81,9 @@ export default function ContractDetailPage() {
           <Detail label="Renewal" value={contract.renewal_date} />
         </div>
 
-        <Box title="Key obligation">
-          {contract.obligation}
-        </Box>
+        <Box title="Key obligation">{contract.obligation}</Box>
 
-        <Box title="Notes">
-          {contract.notes || "No notes provided"}
-        </Box>
+        <Box title="Notes">{contract.notes || "No notes provided"}</Box>
       </div>
     </div>
   );
@@ -108,7 +105,7 @@ function Box({
   children,
 }: {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <div style={boxStyle}>
@@ -128,48 +125,48 @@ const pageStyle: React.CSSProperties = {
   fontFamily: "Inter, sans-serif",
 };
 
-const containerStyle: React.CSSProperties = {
+const containerStyle: CSSProperties = {
   maxWidth: 900,
   margin: "0 auto",
   display: "grid",
   gap: 20,
 };
 
-const titleStyle: React.CSSProperties = {
+const titleStyle: CSSProperties = {
   fontSize: 32,
   fontWeight: 800,
 };
 
-const gridStyle: React.CSSProperties = {
+const gridStyle: CSSProperties = {
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
   gap: 12,
 };
 
-const detailCardStyle: React.CSSProperties = {
+const detailCardStyle: CSSProperties = {
   padding: 14,
   borderRadius: 12,
   background: "rgba(255,255,255,0.05)",
 };
 
-const labelStyle: React.CSSProperties = {
+const labelStyle: CSSProperties = {
   fontSize: 12,
   color: "#94a3b8",
   marginBottom: 6,
 };
 
-const valueStyle: React.CSSProperties = {
+const valueStyle: CSSProperties = {
   fontSize: 14,
   fontWeight: 600,
 };
 
-const boxStyle: React.CSSProperties = {
+const boxStyle: CSSProperties = {
   padding: 16,
   borderRadius: 12,
   background: "rgba(255,255,255,0.05)",
 };
 
-const bodyStyle: React.CSSProperties = {
+const bodyStyle: CSSProperties = {
   marginTop: 6,
   lineHeight: 1.6,
 };

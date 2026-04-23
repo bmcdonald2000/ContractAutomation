@@ -154,11 +154,6 @@ function Dashboard() {
     }
   }
 
-
-
-
-
-
   function updateForm<K extends keyof ContractFormData>(
     key: K,
     value: ContractFormData[K]
@@ -878,13 +873,6 @@ const heroTextStyle: React.CSSProperties = {
   maxWidth: 720,
 };
 
-
-
-
-
-
-
-
 const metricsGridStyle: React.CSSProperties = {
   display: "grid",
   gridTemplateColumns: "repeat(5, 1fr)",
@@ -1099,16 +1087,6 @@ fontWeight: 700,
 textDecoration: "none",
 };
 
-
-
-
-
-
-
-
-
-
-
 const drawerItemStyle: React.CSSProperties = {
   padding: 14,
   borderRadius: 16,
@@ -1128,9 +1106,6 @@ const stackStyle: React.CSSProperties = {
   gap: 10,
 };
 
-
-
-
 const listTitleStyle: React.CSSProperties = {
   fontSize: 15,
   fontWeight: 700,
@@ -1142,24 +1117,6 @@ const listMetaStyle: React.CSSProperties = {
   color: "#8ea2c8",
   marginTop: 4,
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const contractCardStyle: React.CSSProperties = {
 border: "1px solid rgba(255,255,255,0.08)",
