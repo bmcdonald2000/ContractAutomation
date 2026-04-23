@@ -135,6 +135,8 @@ const containerStyle: CSSProperties = {
 const titleStyle: CSSProperties = {
   fontSize: 32,
   fontWeight: 800,
+  fontFamily: "Inter, sans-serif",
+  color: "#fde68a",
 };
 
 const gridStyle: CSSProperties = {

@@ -493,7 +493,6 @@ function Dashboard() {
         ))}
       </div>
     )}
-    console.log("Dashboard contract id:", contract.id, contract.title),
   </section>
 
   <section style={sidebarStackStyle}>
@@ -538,17 +537,9 @@ function Dashboard() {
                 value={selectedContract.renewal_date}
               />
             </div>
-
-            <a
-              href={`/contract/${selectedContract.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={openRecordButtonStyle}
-            >
-            
-         
-              Open full record
-            </a>
+            <Link to={`/contract/${selectedContract.id}`} style={openRecordButtonStyle}>
+                Open full record
+            </Link>
           </div>
         </div>
       )}
