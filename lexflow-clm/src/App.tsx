@@ -19,8 +19,7 @@ import {
   type Activity,
 } from "./lib/activities";
 import { supabase } from "./lib/supabase";
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
+import { Link } from "react-router-dom";
 
 type DetailTab =
   | "Overview"
@@ -485,12 +484,9 @@ function Dashboard() {
                 {contract.status}
               </span>
 
-              <button
-                onClick={() => navigate(`/contract/${contract.id}`)}
-                style={viewDetailStyle}
-              >
+              <Link to={`/contract/${contract.id}`} style={viewDetailStyle}>
                 View details →
-              </button>
+              </Link>
             
             </div>
           </div>
